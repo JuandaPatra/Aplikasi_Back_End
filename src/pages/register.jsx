@@ -25,7 +25,7 @@ class RegisPage extends React.Component {
     }
 
     userValid = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         let symb = /[!@#$%^&*]/
 
         if (symb.test(e.target.value) || e.target.value.length < 6) return this.setState({ usernameErr: [true, "Username must have 6 character & can't include symbol"] })
@@ -68,7 +68,8 @@ class RegisPage extends React.Component {
         let obj = {
             username,
             password,
-            email
+            email,
+            verified : "unverified"
 
         }
         this.props.register(obj)

@@ -7,7 +7,9 @@ const INITIAL_STATE ={
     failedLogin :false,
     msgFailedLogin :"",
     msgSuccessReg : "",
-    registerModal : false
+    registerModal : false,
+    successSendEmail : [false, ""],
+    failSendEmail : [false, ""]
 }
 
 const userReducer =(state= INITIAL_STATE, action)=>{
@@ -58,6 +60,22 @@ const userReducer =(state= INITIAL_STATE, action)=>{
             return{
                 ...state,
                 registerModal :false
+            }
+        case "SUCCESS_SEND_EMAIL":
+            return{
+                ...state,
+                successSendEmail : [true , action.payload]
+            }
+        case "FAIL_SEND_EMAIL":
+            return{
+                ...state,
+                failSendEmail : [true, action.payload]
+            }
+        case "CLOSE_MODAL_SEND_EMAIL":
+            return{
+                ...state,
+                successSendEmail : [false, ""],
+                failSendEmail : [false , ""]
             }
         default :
             return state

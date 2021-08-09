@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import RegisPage from "./pages/register";
+import verification from "./pages/verification";
+import ChangePassword from "./pages/changePasswod";
 
 // import action
 // import { keepLogin } from "./redux/action";
@@ -16,7 +18,7 @@ import {keepLogin} from "./redux/actions"
 
 class App extends React.Component {
   componentDidMount() {
-    let id = +localStorage.getItem("IdUser");
+    let id = localStorage.getItem("token");
     // this.props.keepLogin(id);
     this.props.keepLogin(id)
   }
@@ -44,6 +46,8 @@ class App extends React.Component {
             <Route path="/" component={HomePage} exact />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisPage} />
+            <Route path="/verification/:token" component={verification} />
+            <Route path="/changepassword" component={ChangePassword} />
             
           </Switch>
           {/* <HomePage/> */}

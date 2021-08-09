@@ -7,14 +7,15 @@ import {
 } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {login, closeModal} from "../redux/actions"
+import {login, closeModal, changePassword, closeModalSendEmail} from "../redux/actions"
 
 class LoginPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             visibility: false,
-            error: false
+            error: false,
+            forgotPw : false
         }
     }
 
@@ -41,6 +42,14 @@ class LoginPage extends React.Component {
 
         // cek apakah data yang dikirim oleh user sudah ada di daftar users di database
         this.props.login(data)
+    }
+
+    onChangePassword =()=>{
+        let email = this.refs.changepassword.value
+        console.log(email)
+
+        this.props.changePassword(email)
+        this.setState({forgotPw : false})
     }
 
     render() {
@@ -85,7 +94,7 @@ class LoginPage extends React.Component {
                         </Button>
                     </div>
                     <p style={styles.goToRegis}>Do You Have an Account? </p>
-                    <p style={styles.goToRegis}>Go to </p>
+                    <p style={styles.goToRegis} onClick={()=>this.setState({forgotPw : true})}>Forgot Password ? </p>
                 </div>
                 <Modal show={this.props.failedLogin}>
                     <Modal.Header>
@@ -98,6 +107,40 @@ class LoginPage extends React.Component {
                         <Button onClick={this.props.closeModal} variant="primary">OK</Button>
                     </Modal.Footer>
                 </Modal>
+
+                <Modal show={this.state.forgotPw}>
+                    <Modal.Header>
+                        <Modal.Title>Change your Password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Input Your Email</p>
+                        <FormControl
+                            placeholder="Input your Email Here"
+                            ref="changepassword"
+
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.onChangePassword} variant="primary">Send</Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* <Modal show={this.props.changePassword}>
+                    <Modal.Header>
+                        <Modal.Title>Change your Password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Input Your Email</p>
+                        <FormControl
+                            placeholder="Input your Email Here"
+                            ref="changepassword"
+
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={()=>this.props.closeModalSendEmail} variant="primary">Send</Button>
+                    </Modal.Footer>
+                </Modal> */}
             </div >
         )
     }
@@ -141,4 +184,4 @@ const mapStateToProps =(state)=>{
     }
 }
 
-export default connect(mapStateToProps,{login,closeModal}) (LoginPage)
+export default connect(mapStateToProps,{login,closeModal,changePassword,closeModalSendEmail}) (LoginPage)

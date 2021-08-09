@@ -1,11 +1,11 @@
 import React from "react";
-import { Table, Button, FormControl, Form, Dropdown, Toast, ToastContainer } from "react-bootstrap";
+import { Table, Button, FormControl, Form, Dropdown, Toast, ToastContainer, Alert } from "react-bootstrap";
 import NavigationBar from "../Components/navigation";
 import axios from "axios";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-// const URL_API = "http://localhost:2000/product";
-const URL_API = "http://localhost:2000/";
+const URL_API = "http://localhost:2000/product";
+// const URL_API = "http://localhost:2000/";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +16,12 @@ class HomePage extends React.Component {
       toggle1: false,
       toggle2: false,
       toast: false,
+      notifalert : false
     };
   }
   fetchData = () => {
     axios
-      .get(`${URL_API}getData`)
+      .get(`${URL_API}/getProduct`)
       .then((res) => {
         console.log(res.data);
         this.setState({ products: res.data });
@@ -29,7 +30,7 @@ class HomePage extends React.Component {
   };
   componentDidMount() {
     axios
-      .get(`${URL_API}getData`)
+      .get(`${URL_API}/getProduct`)
       .then((res) => {
         console.log(res.data);
         this.setState({ products: res.data });
@@ -40,6 +41,9 @@ class HomePage extends React.Component {
     console.log(id);
     axios.delete(`${URL_API}deleteData/${id}`).then((res) => {
       this.setState({ products: res.data });
+      this.setState({notifalert:true})
+
+
     });
   };
 
@@ -303,6 +307,21 @@ class HomePage extends React.Component {
             <Toast.Body>data berhasil di update</Toast.Body>
           </Toast>
         </ToastContainer>
+
+        <Alert show={this.state.notifalert} variant="success">
+        <Alert.Heading>How's it going?!</Alert.Heading>
+        <p>
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+          lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
+          fermentum.
+        </p>
+        <hr />
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => this.setState({notifalert : false})} variant="outline-success">
+            Close me y'all!
+          </Button>
+        </div>
+      </Alert>
       </div>
     );
   }
